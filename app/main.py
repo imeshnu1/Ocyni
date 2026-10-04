@@ -1,10 +1,10 @@
-"""Ocyni backend — Feature 1: CBT & Mind-Journaling Hub. Feature 2: Sleep & Circadian Optimizer."""
+"""Ocyni backend — Feature 1: CBT & Mind-Journaling Hub. Feature 2: Sleep & Circadian Optimizer. Feature 3: Coping Exercises & Guided Bot. Home: Calm Check-In Router."""
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
 from .database import init_db
-from .routers import cbt, journal, mood, sleep
+from .routers import cbt, coping, home, journal, mood, sleep
 
 
 @asynccontextmanager
@@ -18,9 +18,11 @@ app = FastAPI(
     description=(
         "Seafarer mental health companion — "
         "Feature 1: CBT & Mind-Journaling Hub; "
-        "Feature 2: Low-Bandwidth Sleep & Circadian Optimizer"
+        "Feature 2: Low-Bandwidth Sleep & Circadian Optimizer; "
+        "Feature 3: Coping Exercises & Guided Bot (template-driven, offline); "
+        "Home: Calm Check-In Router (conversational routing to the right feature)"
     ),
-    version="0.2.0",
+    version="0.4.0",
     lifespan=lifespan,
 )
 
@@ -28,6 +30,8 @@ app.include_router(journal.router)
 app.include_router(cbt.router)
 app.include_router(mood.router)
 app.include_router(sleep.router)
+app.include_router(coping.router)
+app.include_router(home.router)
 
 
 @app.get("/", tags=["meta"])
@@ -37,6 +41,8 @@ def root():
         "features": [
             "1 — Offline Interactive CBT & Mind-Journaling Hub",
             "2 — Low-Bandwidth Sleep & Circadian Optimizer",
+            "3 — Coping Exercises & Guided Bot (template-driven, offline)",
+            "Home — Calm Check-In Router (conversational routing)",
         ],
         "docs": "/docs",
     }

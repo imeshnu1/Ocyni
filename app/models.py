@@ -56,3 +56,16 @@ class SleepLog(Base):
     interruptions = Column(Integer, default=0)
     notes = Column(String(500), nullable=True)
     crisis_flag = Column(Integer, default=0)
+
+
+class CopingSession(Base):
+    """One guided coping-exercise session (Feature 3)."""
+    __tablename__ = "coping_sessions"
+
+    id = Column(Integer, primary_key=True, index=True)
+    created_at = Column(DateTime, default=datetime.utcnow, index=True)
+    exercise_id = Column(String(100), nullable=False)   # slug into coping_exercises
+    mood_before = Column(Integer, nullable=False)        # 1-5
+    mood_after = Column(Integer, nullable=True)          # 1-5, set on completion
+    completed = Column(Integer, default=0)               # 1 when finished
+    crisis_flag = Column(Integer, default=0)             # 1 if crisis language detected
