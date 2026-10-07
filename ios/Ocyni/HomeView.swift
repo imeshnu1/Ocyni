@@ -171,28 +171,28 @@ struct HomeView: View {
                                 .foregroundStyle(.orange.opacity(0.9))
                         }
 
-                        if let result {
+                        if let recommendation = result {
                             SoftCard {
                                 VStack(alignment: .leading, spacing: 10) {
-                                    Text(result.reply)
+                                    Text(recommendation.reply)
                                         .font(.body)
                                         .foregroundStyle(.white.opacity(0.92))
                                         .lineSpacing(3)
                                 }
                             }
 
-                            if result.crisisFlag, let support = result.support {
+                            if recommendation.crisisFlag, let support = recommendation.support {
                                 CrisisSupportCard(support: support)
-                            } else if result.recommendation.feature != "none" {
+                            } else if recommendation.recommendation.feature != "none" {
                                 SoftCard {
                                     VStack(alignment: .leading, spacing: 8) {
-                                        Text(result.recommendation.title)
+                                        Text(recommendation.recommendation.title)
                                             .font(.headline)
                                             .foregroundStyle(.white)
-                                        Text(result.recommendation.reason)
+                                        Text(recommendation.recommendation.reason)
                                             .font(.subheadline)
                                             .foregroundStyle(.white.opacity(0.7))
-                                        Button("Open") { openRecommendation(result.recommendation) }
+                                        Button("Open") { openRecommendation(recommendation.recommendation) }
                                             .buttonStyle(.bordered)
                                             .tint(.teal)
                                     }

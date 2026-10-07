@@ -95,7 +95,7 @@ struct JournalView: View {
 }
 
 private struct JournalComposer: View {
-    @State private var body: String = ""
+    @State private var entryBody: String = ""
     @State private var mood: Int? = nil
     @State private var isSaving = false
     @State private var errorText: String? = nil
@@ -110,7 +110,7 @@ private struct JournalComposer: View {
                         .font(.title2)
                         .fontWeight(.semibold)
                         .foregroundStyle(.white.opacity(0.95))
-                    TextField("Write freely…", text: $body, axis: .vertical)
+                    TextField("Write freely…", text: $entryBody, axis: .vertical)
                         .lineLimit(6...12)
                         .padding(14)
                         .background(.white.opacity(0.08))
@@ -136,7 +136,7 @@ private struct JournalComposer: View {
                     }
                     .buttonStyle(.borderedProminent)
                     .tint(.teal.opacity(0.65))
-                    .disabled(body.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || isSaving)
+                    .disabled(entryBody.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || isSaving)
                     DisclaimerFooter()
                 }
                 .padding()
@@ -156,7 +156,7 @@ private struct JournalComposer: View {
         Task {
             do {
                 let entry = try await APIClient.shared.createJournal(
-                    body: body.trimmingCharacters(in: .whitespacesAndNewlines),
+                    body: entryBody.trimmingCharacters(in: .whitespacesAndNewlines),
                     moodBefore: mood
                 )
                 await MainActor.run { onDone(entry) }
